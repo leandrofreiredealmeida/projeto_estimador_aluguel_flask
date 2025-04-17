@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Estimador de Aluguéis</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { font-size: 24px; color: #1e3799; border-bottom: 2px solid #1e3799; padding-bottom: 10px; }
+        .secao { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        label { display: block; margin: 10px 0; font-weight: bold; }
+        input, select { width: 100%; padding: 8px; margin: 5px 0; }
+        button { background: #1e3799; color: white; padding: 10px 20px; border: none; cursor: pointer; }
+        #resultado { font-size: 20px; margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Estimador de Aluguéis em Campo Grande/MS</h1>
+    <p style="font-size: 14px;">Este estimador de valor de aluguéis em Campo Grande/MS faz parte do projeto de extensão "Aluguéis em Campo Grande/MS: estimador de preços". O projeto foi desenvolvido por Leandro Freire de Almeida, aluno do Curso Superior de Tecnologia de Ciência dos Dados da Universidade Federal do Mato Grosso do Sul (UFMS), para a disciplina Projeto Integrador de Ciência dos Dados III. Este estimador foi criado com dados captados em 07 de abril de 2025.</p>
+
+    <form method="POST">
+        <div class="secao">
+            <h2>Localização do Imóvel</h2>
+            
+            <label>Região:</label>
+            <select name="regiao" id="regiao" required onchange="atualizarBairros()">
+                <option value="">Selecione...</option>
+                {% for regiao in campo_grande %}
+                <option>{{ regiao }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Bairro:</label>
+            <select name="bairro" id="bairro" required onchange="atualizarVilas()">
+                <option value="">Selecione...</option>
+            </select>
+
+            <label>Vila:</label>
+            <select name="localizacao" id="localizacao" required>
+                <option value="">Selecione...</option>
+            </select>
+        </div>
+
+        <div class="secao">
+            <h2>Características do Imóvel</h2>
+            
+            <label>Tipo do imóvel:</label>
+            <select name="tipo" required>
+                <option value="">Selecione...</option>
+                <option value="casa">Casa</option>
+                <option value="apartamento">Apartamento</option>
+            </select>
+
+            <label>Área (m²):</label>
+            <input type="number" name="area" min="1" max="999" step="1" required>
+
+            <label>Quartos:</label>
+            <input type="number" name="quarto" min="1" required>
+
+            <label>Banheiros:</label>
+            <input type="number" name="banheiro" min="1" required>
+
+            <label>Vagas de garagem:</label>
+            <input type="number" name="vagas_garagem" min="0" required>
+
+            <label>Condomínio:</label>
+            <select name="eh_condo" required>
+                <option value="">Selecione...</option>
+                <option value="1">Sim</option>
+                <option value="0">Não</option>
+            </select>
+        </div>
+
+        <button type="submit">Calcular Aluguel</button>
+    </form>
+
+    {% if valor_predito %}
+    <div id="resultado">
+        Valor do aluguel estimado para {{ tipo|capitalize }} de {{ area }} m² 
+        com {{ quarto }} quarto{% if quarto|int > 1 %}s{% endif %} e 
+        {{ banheiro }} banheiro{% if banheiro|int > 1 %}s{% endif %} 
+        em {{ bairro }}: <strong>R$ {{ "%.2f"|format(valor_predito) }}</strong>
+    </div>
+    {% endif %}
+
+    <script>
+        const campoGrande = JSON.parse('{{ campo_grande | tojson | safe }}');
+
+        function atualizarBairros() {
+            const regiao = document.getElementById('regiao').value;
+            const bairroSelect = document.getElementById('bairro');
+            
+            bairroSelect.innerHTML = '<option value="">Selecione...</option>';
+            
+            if (regiao) {
+                Object.keys(campoGrande[regiao]).forEach(bairro => {
+                    const option = document.createElement('option');
+                    option.value = bairro;
+                    option.textContent = bairro;
+                    bairroSelect.appendChild(option);
+                });
+            }
+        }
+
+        function atualizarVilas() {
+            const regiao = document.getElementById('regiao').value;
+            const bairro = document.getElementById('bairro').value;
+            const vilaSelect = document.getElementById('localizacao');
+            
+            vilaSelect.innerHTML = '<option value="">Selecione...</option>';
+            
+            if (regiao && bairro) {
+                campoGrande[regiao][bairro].forEach(vila => {
+                    const option = document.createElement('option');
+                    option.value = vila;
+                    option.textContent = vila;
+                    vilaSelect.appendChild(option);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
