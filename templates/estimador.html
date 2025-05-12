@@ -2,15 +2,98 @@
 <html>
 <head>
     <title>Estimador de Aluguéis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        h1 { font-size: 24px; color: #1e3799; border-bottom: 2px solid #1e3799; padding-bottom: 10px; }
-        .secao { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
-        label { display: block; margin: 10px 0; font-weight: bold; }
-        input, select { width: 100%; padding: 8px; margin: 5px 0; }
-        button { background: #1e3799; color: white; padding: 10px 20px; border: none; cursor: pointer; }
-        #resultado { font-size: 20px; margin-top: 20px; font-weight: bold; }
+        /* Responsividade */
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px;
+            font-size: 1rem;
+        }
+        
+        h1 { 
+            font-size: 1.5rem;
+            color: #1e3799; 
+            border-bottom: 2px solid #1e3799; 
+            padding-bottom: 0.625rem;
+            margin-top: 0;
+        }
+
+        .secao { 
+            margin: 1.25rem 0; 
+            padding: 1rem; 
+            border: 1px solid #ddd; 
+            border-radius: 0.5rem;
+        }
+
+        label { 
+            display: block; 
+            margin: 0.625rem 0; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+        }
+
+        /* Inputs no mobile */
+        input, select { 
+            width: 100%; 
+            padding: 0.5rem;
+            margin: 0.3125rem 0;
+            font-size: 1rem;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 0.25rem;
+        }
+
+        button { 
+            background: #1e3799; 
+            color: white; 
+            padding: 0.625rem 1.25rem;
+            border: none; 
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+            border-radius: 0.25rem; 
+            margin-top: 1rem;
+        }
+
+        #resultado { 
+            font-size: 1.1rem;
+            margin-top: 1.25rem; 
+            font-weight: bold;
+            padding: 1rem; 
+            background: #f8f9fa;
+            border-radius: 0.25rem;
+        }
+
+        /* Media queries para telas menores */
+        @media (max-width: 768px) {
+            body {
+                padding: 0.625rem;
+                font-size: 0.9rem;
+            }
+            
+            .secao {
+                padding: 0.625rem;
+                margin: 0.625rem 0;
+            }
+            
+            h1 {
+                font-size: 1.2rem;
+            }
+            
+            button {
+                padding: 0.5rem;
+                font-size: 1rem;
+            }
+            
+            #resultado {
+                font-size: 1rem;
+            }
+        }
     </style>
+
 </head>
 <body>
     <h1>Estimador de Aluguéis em Campo Grande/MS</h1>
